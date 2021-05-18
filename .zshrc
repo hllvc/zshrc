@@ -84,19 +84,6 @@ plugins=(
 	# zsh-vim-mode
 )
 
-ZVM_VI_EDITOR=nvim
-ZVM_VI_INSERT_ESCAPE_BINDKEY=jk
-ZVM_READKEY_ENGINE=$ZVM_READKEY_ENGINE_ZLE
-ZVM_VI_HIGHLIGHT_BACKGROUND=#3c3836
-
-# VIM_MODE_VICMD_KEY='jk'
-# VIM_MODE_TRACK_KEYMAP=no
-# MODE_CURSOR_VIINS="#a89984 blinking bar"
-# MODE_CURSOR_REPLACE="$MODE_CURSOR_VIINS #a89984"
-# MODE_CURSOR_VICMD="#a89984 block"
-# MODE_CURSOR_SEARCH="#a89984 steady underline"
-# MODE_CURSOR_VISUAL="$MODE_CURSOR_VICMD steady bar"
-# MODE_CURSOR_VLINE="$MODE_CURSOR_VISUAL #a89984"
 
 source $ZSH/oh-my-zsh.sh
 # User configuration
@@ -127,13 +114,12 @@ alias ohmyzsh='nvim ~/.oh-my-zsh'
 alias zsu='source ~/.zshrc'
 
 # editor aliases
-alias svi='sudo nvim'
-alias vi='nvim'
-alias t='gnome-terminal'
+alias svi="sudo nvim"
+# alias t='gnome-terminal'
 alias n="nautilus ."
 
 # system aliases
-alias update_grub='sudo grub-mkconfig -o /boot/grub/grub.cfg'
+alias grub-update='sudo grub-mkconfig -o /boot/grub/grub.cfg'
 alias towin='sudo grub-reboot 2; sudo reboot'
 alias die='shutdown now'
 
@@ -158,12 +144,13 @@ alias gi='git init'
 alias gs='git status'
 alias gb='git branch'
 alias sw='git switch'
-alias fetch='git fetch'
+alias fetch='git fetch origin'
 alias u='git add .'
 alias com='git commit -m'
 alias push='git push origin'
 alias pull='git pull origin'
 alias gra='git remote add origin'
+alias grall='git remote -v'
 
 # navigation aliases
 alias o='xdg-open'
@@ -178,6 +165,7 @@ alias ....='cd ../../..'
 alias .....='cd ../../../..'
 
 # directory aliases
+alias tr='trash'
 alias rmd='rm -rfv'
 alias srmd='sudo rm -rfv'
 alias la='ls -A'
@@ -227,13 +215,7 @@ mksh () {
 	touch $1
 	echo "#!/bin/sh\n\n" > $1
 	chmod +x $1
-	vi +3 $1
-}
-
-newcpp () {
-	mkdir $1 && cd $1
-	mkdir src include
-	touch main.cpp
+	nvim +3 $1
 }
 
 vih () {
@@ -289,6 +271,23 @@ res () {
 		fi
 	fi
 }
+
+vi () {
+	if [[ $1 = '.' ]]; then
+		nvim
+	elif [[ -d $1 ]]; then
+		cd $1; nvim $1
+	else
+		nvim $1
+	fi
+}
+
+ZVM_VI_EDITOR=nvim
+ZVM_VI_INSERT_ESCAPE_BINDKEY=jk
+ZVM_READKEY_ENGINE=$ZVM_READKEY_ENGINE_NEX
+ZVM_VI_HIGHLIGHT_BACKGROUND=#3c3836
+ZVM_LAZY_KEYBINDINGS=false
+export KEYTIMEOUT=1
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
