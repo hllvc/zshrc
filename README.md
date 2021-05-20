@@ -58,3 +58,10 @@ for `zsh-vi-mode`
 git clone https://github.com/jeffreytse/zsh-vi-mode \
   $ZSH/custom/plugins/zsh-vi-mode
 ```
+
+#### Setting gnome-terminal colors
+
+If you want terminal colors for gnome-terminal copy palette from
+[here](./gnome-terminal-colorscheme). Find `/org/gnome/terminal/legacy/profiles:/`
+in dconf-editor, open your profile and search for `palette`. Set custom value of
+colorscheme you just copied.

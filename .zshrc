@@ -289,5 +289,9 @@ ZVM_VI_HIGHLIGHT_BACKGROUND=#3c3836
 ZVM_LAZY_KEYBINDINGS=false
 export KEYTIMEOUT=1
 
+diein () {
+	sleep $1; shutdown now
+}
+
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
