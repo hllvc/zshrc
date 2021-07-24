@@ -6,7 +6,9 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
 fi
 
 # If you come from bash you might have to change your $PATH.
-export ZSH="/home/hllvc/.oh-my-zsh"
+export ZSH="$HOME/.oh-my-zsh"
+
+export PATH="$HOME/.local/share/gem/ruby/3.0.0/bin:$PATH"
 
 # export color
 export TERM=xterm-256color
@@ -50,7 +52,7 @@ DISABLE_UPDATE_PROMPT="true"
 # DISABLE_AUTO_TITLE="true"
 
 # Uncomment the following line to enable command auto-correction.
-ENABLE_CORRECTION="true"
+# ENABLE_CORRECTION="true"
 
 # Uncomment the following line to display red dots whilst waiting for completion.
 COMPLETION_WAITING_DOTS="true"
@@ -110,6 +112,7 @@ fi
 #
 # Example aliases
 alias zshrc='nvim ~/.zshrc'
+alias pp='cd ~/github/nvim/plugin'
 alias ohmyzsh='nvim ~/.oh-my-zsh'
 alias zsu='source ~/.zshrc'
 
@@ -139,13 +142,13 @@ alias h='history'
 # git aliases
 alias g='git'
 alias gc='git clone'
-alias gcm='git clone https::/github.com/hllvc/$1'
 alias gi='git init'
 alias gs='git status'
 alias gb='git branch'
 alias sw='git switch'
 alias fetch='git fetch origin'
 alias u='git add .'
+alias ga='git add'
 alias com='git commit -m'
 alias push='git push origin'
 alias pull='git pull origin'
@@ -170,7 +173,6 @@ alias rmd='rm -rfv'
 alias srmd='sudo rm -rfv'
 alias la='ls -A'
 alias ll='ls -gh'
-alias f='find . | grep'
 
 # archive aliases
 alias mktar='tar -cvf'
@@ -213,14 +215,14 @@ mkdg () {
 
 mksh () {
 	touch $1
-	echo "#!/bin/sh\n\n" > $1
+	echo "#!/bin/bash\n\n" > $1
 	chmod +x $1
 	nvim +3 $1
 }
 
 vih () {
 	if [[ $1 = "hpp" ]]; then
-		nvim -O include/$2.hpp src/$2.cpp
+		nvim -O include/$2.hpp source/$2.cpp
 	elif [[ $1 = "h" ]]; then
 		nvim -O include/$2.h src/$2.c
 	fi
@@ -273,12 +275,13 @@ res () {
 }
 
 vi () {
+	echo $PWD > ~/.curr
 	if [[ $1 = '.' ]]; then
 		nvim
 	elif [[ -d $1 ]]; then
-		cd $1; nvim $1
+		cd $1; ls
 	else
-		nvim $1
+		nvim $@
 	fi
 }
 
@@ -292,6 +295,24 @@ export KEYTIMEOUT=1
 diein () {
 	sleep $1; shutdown now
 }
+
+unalias gcm
+gcm () {
+	git clone https://github.com/hllvc/$1.git
+}
+
+alias tt='tmux list-sessions'
+
+alias to='echo $PWD > ~/.curr'
+alias goto='cd $(cat ~/.curr)'
+
+alias uu='sudo pacman -Syu'
+
+# jenkins aliases
+alias startj='sudo systemctl start jenkins; firefox localhost:8090'
+alias stopj='sudo systemctl stop jenkins'
+alias statusj='sudo systemctl status jenkins'
+alias restartj='sudo systemctl restart jenkins'
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
