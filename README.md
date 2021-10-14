@@ -2,15 +2,9 @@
 
 ## How to install?
 
-Clone this repo
+### Make sure you have installed `zsh` first!
 
-```
-git clone https://github.com/neoclide/zshrc.git
-cd zshrc
-mv * ~ & rm -rf zshrc
-```
-
-then install [Oh My ZSH!](https://ohmyz.sh/)
+Install [Oh My ZSH!](https://ohmyz.sh/)
 
 ```
 sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
@@ -21,6 +15,14 @@ and [powerlevel10k](https://github.com/romkatv/powerlevel10k)
 ```
 git clone --depth=1 https://github.com/romkatv/powerlevel10k.git \
 	${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
+```
+
+Clone this repo
+
+```
+git clone https://github.com/neoclide/zshrc.git; \
+cd zshrc; \
+mv .zshrc .p10k.zsh ~; \
 ```
 
 ### Plugins that I am using are
