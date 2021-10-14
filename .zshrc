@@ -80,6 +80,8 @@ COMPLETION_WAITING_DOTS="true"
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
 	git
+	kubectl
+	enhancd
 	zsh-autosuggestions
 	zsh-syntax-highlighting
 	zsh-vi-mode
@@ -117,7 +119,7 @@ alias ohmyzsh='nvim ~/.oh-my-zsh'
 alias zsu='source ~/.zshrc'
 
 # editor aliases
-alias svi="sudo nvim"
+alias svi="sudoedit"
 # alias t='gnome-terminal'
 alias n="nautilus ."
 
@@ -146,22 +148,23 @@ alias gi='git init'
 alias gs='git status'
 alias gb='git branch'
 alias sw='git switch'
-alias fetch='git fetch origin'
+alias gg='git checkout'
 alias u='git add .'
-alias ga='git add'
 alias com='git commit -m'
+alias amm='git commit --amend'
 alias push='git push origin'
 alias pull='git pull origin'
+alias fetch='git fetch origin'
 alias gra='git remote add origin'
 alias grall='git remote -v'
 
 # navigation aliases
 alias o='xdg-open'
-alias gh='cd ~/github'
 alias dc='cd ~/Documents'
 alias pic='cd ~/Pictures'
 alias dw='cd ~/Downloads'
 alias th='cd ~/.themes'
+alias ext='cd ~/.local/share/gnome-shell/extensions/'
 alias ..='cd ..'
 alias ...='cd ../..'
 alias ....='cd ../../..'
@@ -301,18 +304,43 @@ gcm () {
 	git clone https://github.com/hllvc/$1.git
 }
 
-alias tt='tmux list-sessions'
+alias ghcli=$(which gh)
+gh () {
+	if [[ -z $@ ]]; then
+		cd ~/github
+	else
+		ghcli $@
+	fi
+}
 
 alias to='echo $PWD > ~/.curr'
 alias goto='cd $(cat ~/.curr)'
 
 alias uu='sudo pacman -Syu'
 
+alias k='kubectl'
+complete -F __start_kubectl k
+
 # jenkins aliases
 alias startj='sudo systemctl start jenkins; firefox localhost:8090'
 alias stopj='sudo systemctl stop jenkins'
 alias statusj='sudo systemctl status jenkins'
 alias restartj='sudo systemctl restart jenkins'
+
+copy () {
+	echo "$(pwd)/$1" > ~/.tocopy
+}
+
+paste () {
+	tocopy="$( cat ~/.tocopy )"
+	if [[ -d $tocopy ]]; then
+		cp $tocopy -r ./
+	else
+		cp $tocopy ./
+	fi
+}
+
+alias gtk_log='journalctl -f -o cat /usr/bin/gnome-shell'
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
